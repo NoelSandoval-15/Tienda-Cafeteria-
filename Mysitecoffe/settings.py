@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url
 
 # Cargar variables de entorno desde .env
 load_dotenv()
@@ -87,15 +88,14 @@ WSGI_APPLICATION = 'Mysitecoffe.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+
+
+
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cafeteria',
-        'USER': 'postgres.wjfmbtmwjgxocnyqguis',
-        'PASSWORD':'220036314Ensm.',
-        'HOST': 'aws-1-us-east-1.pooler.supabase.com',
-        'PORT': 6543,
-    }
+    'default': dj_database_url.parse(os.environ.get("postgresql://postgres.wjfmbtmwjgxocnyqguis:220036314Ensm.@aws-1-us-east-1.pooler.supabase.com:6543/postgres"))
+   
 }
 
 
@@ -131,6 +131,8 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
+
+
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
