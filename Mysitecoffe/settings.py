@@ -15,11 +15,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
 
-# Cargar variables de entorno desde .env
-load_dotenv()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Cargar variables de entorno desde .env
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -88,10 +88,23 @@ WSGI_APPLICATION = 'Mysitecoffe.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-   
-}
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL)
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('DATABASE_NAME', 'cafeteria'),
+            'USER': os.environ.get('DATABASE_USER', 'postgres.wjfmbtmwjgxocnyqguis'),
+            'PASSWORD': os.environ.get('DATABASE_PASSWORD', '220036314Enms'),
+            'HOST': os.environ.get('DATABASE_HOST', 'aws-1-us-east-1.pooler.supabase.com'),
+            'PORT': os.environ.get('DATABASE_PORT', '6543'),
+        }
+    }
 
 
 # Password validation
